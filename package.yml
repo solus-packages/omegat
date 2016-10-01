@@ -1,0 +1,38 @@
+name       : OmegaT
+version    : 3.6.0_03
+release    : 1
+source     :
+    - http://pilotfiber.dl.sourceforge.net/project/omegat/OmegaT%20-%20Standard/OmegaT%203.6.0%20update%203/OmegaT_3.6.0_03_Source.zip : 85e148fc48227634847592f013c4c92240b18e77ef8b3b3f63887c3b0c229802
+license    : GPL-3.0
+component  : office
+summary    : CAT tool for professional translators
+description: |
+    OmegaT is a free translation memory application written in Java. It is a tool intended for professional translators. It does not translate for you! (Software that does this is called "machine translation", and you will have to look elsewhere for it.)
+builddeps  :
+    - apache-ant
+rundeps    :
+    - openjdk-8
+patterns   :
+    - docs :
+        - /usr/share/doc/OmegaT
+setup      : |
+    %patch -p1 < $pkgfiles/0001-disable_win_mac.patch
+build      : |
+    ant
+    # Fix end-of-line encoding 
+    sed -i 's/\r//' dist/*.txt
+    find dist/docs/ -type f -exec sed -i 's/\r//' {} \;
+install    : |
+    install -d $installdir/usr/share/doc/OmegaT
+    install -d $installdir/usr/share/OmegaT/{images,images/OmegaT.iconset,lib,plugins}
+    install -Dm 755 $pkgfiles/omegat $installdir/usr/bin/omegat
+    install -Dm 644 $pkgfiles/omegat.desktop $installdir/usr/share/applications/omegat.desktop
+    install -Dm 644 dist/{*.txt,*.html} $installdir/usr/share/doc/OmegaT/
+    cp -R dist/docs $installdir/usr/share/doc/OmegaT/
+
+    install -Dm 644 dist/images/{*.gif,*.icns,*.ico,*.png,*.svg} $installdir/usr/share/OmegaT/images/
+    install -Dm 644 dist/images/OmegaT.iconset/* $installdir/usr/share/OmegaT/images/OmegaT.iconset/
+    install -Dm 644 dist/lib/*.jar $installdir/usr/share/OmegaT/lib/
+    install -Dm 644 dist/plugins/* $installdir/usr/share/OmegaT/plugins/
+    install -Dm 644 dist/OmegaT.jar $installdir/usr/share/OmegaT/
+

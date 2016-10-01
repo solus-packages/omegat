@@ -1,0 +1,3 @@
+#!/bin/sh
+REALOMEGATPATH=/usr/share/OmegaT
+java -jar -Xmx1024m -Dawt.useSystemAAFontSettings=on "${REALOMEGATPATH}/OmegaT.jar" $*
