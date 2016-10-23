@@ -1,4 +1,4 @@
-name       : OmegaT
+name       : omegat
 version    : 3.6.0_03
 release    : 2
 source     :
@@ -12,14 +12,8 @@ builddeps  :
     - apache-ant
 rundeps    :
     - openjdk-8
-patterns   :
-    - docs :
-        - /usr/share/doc/OmegaT
 build      : |
     ant linux-64
-    # Fix end-of-line encoding
-    sed -i 's/\r//' dist/*.txt
-    find dist/docs/ -type f -exec sed -i 's/\r//' {} \;
 install    : |
     install -d $installdir/usr/share/doc/OmegaT
     install -d $installdir/usr/share/OmegaT/{images,images/OmegaT.iconset,lib,plugins}
@@ -27,10 +21,12 @@ install    : |
     install -Dm 644 $pkgfiles/omegat.desktop $installdir/usr/share/applications/omegat.desktop
     install -Dm 644 dist/{*.txt,*.html} $installdir/usr/share/doc/OmegaT/
     cp -R dist/docs $installdir/usr/share/doc/OmegaT/
-
+    chmod -R 00644 $installdir/usr/share/doc/OmegaT/
     install -Dm 644 dist/images/{*.gif,*.icns,*.ico,*.png,*.svg} $installdir/usr/share/OmegaT/images/
     install -Dm 644 dist/images/OmegaT.iconset/* $installdir/usr/share/OmegaT/images/OmegaT.iconset/
     install -Dm 644 dist/lib/*.jar $installdir/usr/share/OmegaT/lib/
     install -Dm 644 dist/plugins/* $installdir/usr/share/OmegaT/plugins/
     install -Dm 644 dist/OmegaT.jar $installdir/usr/share/OmegaT/
-
+patterns   :
+    - docs :
+        - /usr/share/doc/OmegaT
