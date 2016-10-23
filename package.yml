@@ -1,6 +1,6 @@
 name       : OmegaT
 version    : 3.6.0_03
-release    : 1
+release    : 2
 source     :
     - http://pilotfiber.dl.sourceforge.net/project/omegat/OmegaT%20-%20Standard/OmegaT%203.6.0%20update%203/OmegaT_3.6.0_03_Source.zip : 85e148fc48227634847592f013c4c92240b18e77ef8b3b3f63887c3b0c229802
 license    : GPL-3.0
@@ -15,11 +15,9 @@ rundeps    :
 patterns   :
     - docs :
         - /usr/share/doc/OmegaT
-setup      : |
-    %patch -p1 < $pkgfiles/0001-disable_win_mac.patch
 build      : |
-    ant
-    # Fix end-of-line encoding 
+    ant linux-64
+    # Fix end-of-line encoding
     sed -i 's/\r//' dist/*.txt
     find dist/docs/ -type f -exec sed -i 's/\r//' {} \;
 install    : |
